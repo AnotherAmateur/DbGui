@@ -9,8 +9,6 @@ namespace DbGui
 {
 	internal static class Program
 	{
-		public static string ConnectionString { get; set; }
-
 		/// <summary>
 		/// Главная точка входа для приложения.
 		/// </summary>
@@ -23,9 +21,18 @@ namespace DbGui
 			LoginForm loginForm = new LoginForm();
 			Application.Run(loginForm);
 
-			if (loginForm.LoginSuccess == true)
+			if (DataBaseController.ExceptionMessage is null)
 			{
-				Application.Run(new MainForm());
+				if (DataBaseController.IsAdministrator == true)
+				{
+					MessageBox.Show("Вход выполнен. Выданы права администратора.");
+					Application.Run(new MainFormAdmin());
+				}
+				else
+				{
+					MessageBox.Show("Вход выполнен. Выданы ограниченные права.");
+					Application.Run(new MainFormUser());
+				}			
 			}
 		}
 	}

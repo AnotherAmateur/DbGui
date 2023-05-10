@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,11 +16,8 @@ namespace DbGui
 {
 	public partial class LoginForm : Form
 	{
-		public bool LoginSuccess { get; set; }
-
 		public LoginForm()
 		{
-			LoginSuccess = false;
 			InitializeComponent();
 		}
 
@@ -35,31 +33,34 @@ namespace DbGui
 
 		private void loginButton_Click(object sender, EventArgs e)
 		{
-			string connectionString = "Data Source=PURPLESKY;" +
-									  "Initial Catalog=LibraryBD;" +
-									  $"User id={loginTextBox.Text};" +
-									  $"Password={passwordTextBox.Text};";
-
-			Thread connectThread = new Thread(() =>
+			if (DataBaseController.OpenConnection(loginTextBox.Text, passwordTextBox.Text) is true)
 			{
-				using (SqlConnection cn = new SqlConnection(connectionString))
-				{
-					try
-					{
-						cn.Open();
-						LoginSuccess = true;
-						Program.ConnectionString = connectionString;
+				this.Close();
+			}
+			else
+			{
+				MessageBox.Show(DataBaseController.ExceptionMessage);
+			}			
+		}
 
-						this.Invoke(new Action(() => this.Close()));
-					}
-					catch (Exception ex)
-					{
-						MessageBox.Show($"Not connected, error: {ex.Message}");
-					}
-				}
-			});
+		private void LoginForm_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+		}
 
-			connectThread.Start();
+		private void passwordTextBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				loginButton_Click(null, null);
+			}
+		}
+
+		private void loginTextBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				loginButton_Click(null, null);
+			}
 		}
 	}
 }

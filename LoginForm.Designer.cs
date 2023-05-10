@@ -28,14 +28,12 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			this.AuthGroupBox = new System.Windows.Forms.GroupBox();
 			this.loginButton = new System.Windows.Forms.Button();
 			this.passwordTextBox = new System.Windows.Forms.TextBox();
 			this.loginTextBox = new System.Windows.Forms.TextBox();
 			this.passwordLabel = new System.Windows.Forms.Label();
 			this.loginLabel = new System.Windows.Forms.Label();
-			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.AuthGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -72,8 +70,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.passwordTextBox.Location = new System.Drawing.Point(132, 85);
 			this.passwordTextBox.Name = "passwordTextBox";
+			this.passwordTextBox.PasswordChar = '*';
 			this.passwordTextBox.Size = new System.Drawing.Size(241, 20);
 			this.passwordTextBox.TabIndex = 3;
+			this.passwordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.passwordTextBox_KeyDown);
 			// 
 			// loginTextBox
 			// 
@@ -85,6 +85,7 @@
 			this.loginTextBox.Size = new System.Drawing.Size(241, 20);
 			this.loginTextBox.TabIndex = 2;
 			this.loginTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+			this.loginTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.loginTextBox_KeyDown);
 			// 
 			// passwordLabel
 			// 
@@ -104,20 +105,16 @@
 			this.loginLabel.TabIndex = 0;
 			this.loginLabel.Text = "Логин";
 			// 
-			// contextMenuStrip1
-			// 
-			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-			// 
 			// LoginForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.Controls.Add(this.AuthGroupBox);
+			this.KeyPreview = true;
 			this.MinimumSize = new System.Drawing.Size(800, 400);
 			this.Name = "LoginForm";
-			this.Text = "Form1";
+			this.Text = "Login Form";
 			this.AuthGroupBox.ResumeLayout(false);
 			this.AuthGroupBox.PerformLayout();
 			this.ResumeLayout(false);
@@ -130,7 +127,6 @@
 		private System.Windows.Forms.TextBox loginTextBox;
 		private System.Windows.Forms.Label passwordLabel;
 		private System.Windows.Forms.Label loginLabel;
-		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 		private System.Windows.Forms.TextBox passwordTextBox;
 		private System.Windows.Forms.Button loginButton;
 	}
