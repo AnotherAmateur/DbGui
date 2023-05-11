@@ -18,21 +18,23 @@ namespace DbGui
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			LoginForm loginForm = new LoginForm();
+			DataBaseController db = new DataBaseController();
+			LoginForm loginForm = new LoginForm(db);
 			Application.Run(loginForm);
 
-			if (DataBaseController.ExceptionMessage is null)
+			if (db.ExceptionMessage is null)
 			{
-				if (DataBaseController.IsAdministrator == true)
-				{
-					MessageBox.Show("Вход выполнен. Выданы права администратора.");
-					Application.Run(new MainFormAdmin());
-				}
-				else
-				{
-					MessageBox.Show("Вход выполнен. Выданы ограниченные права.");
-					Application.Run(new MainFormUser());
-				}			
+				Application.Run(new MainFormAdmin(db));
+				//if (db.IsAdministrator == true)
+				//{
+				//	//MessageBox.Show("Вход выполнен. Выданы права администратора.");
+				//	Application.Run(new MainFormAdmin(db));
+				//}
+				//else
+				//{
+				//	//MessageBox.Show("Вход выполнен. Выданы ограниченные права.");
+				//	Application.Run(new MainFormUser());
+				//}			
 			}
 		}
 	}

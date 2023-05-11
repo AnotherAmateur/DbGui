@@ -16,8 +16,10 @@ namespace DbGui
 {
 	public partial class LoginForm : Form
 	{
-		public LoginForm()
+		private DataBaseController db;
+		public LoginForm(DataBaseController db)
 		{
+			this.db = db;
 			InitializeComponent();
 		}
 
@@ -33,13 +35,13 @@ namespace DbGui
 
 		private void loginButton_Click(object sender, EventArgs e)
 		{
-			if (DataBaseController.OpenConnection(loginTextBox.Text, passwordTextBox.Text) is true)
+			if (db.OpenConnection(loginTextBox.Text, passwordTextBox.Text) is true)
 			{
 				this.Close();
 			}
 			else
 			{
-				MessageBox.Show(DataBaseController.ExceptionMessage);
+				MessageBox.Show(db.ExceptionMessage);
 			}			
 		}
 
