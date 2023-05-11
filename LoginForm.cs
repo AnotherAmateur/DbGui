@@ -20,7 +20,8 @@ namespace DbGui
 		public LoginForm()
 		{			
 			InitializeComponent();
-			this.Name = "Система управления библиотекой";
+			this.Text = "Система управления библиотекой";
+			StartPosition = FormStartPosition.CenterScreen;
 			db = new DataBaseController();
 		}
 

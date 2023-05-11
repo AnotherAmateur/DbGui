@@ -18,38 +18,38 @@ namespace DbGui
 		private DataBaseController db;
 
 		public MainFormAdmin()
-		{			
+		{
 			InitializeComponent();
+			StartPosition = FormStartPosition.CenterScreen;
 			this.db = new DataBaseController();
-			this.Name = "Система управления библиотекой";
+			this.Text = "Система управления библиотекой";
+			this.dataGridView.DataBindingComplete +=
+			new DataGridViewBindingCompleteEventHandler(this.DataBindingComplete);
 			InitializeData();
 			SetUpAdminOperations();
 		}
 
 		private void SetUpAdminOperations()
 		{
-			if (DataBaseController.IsAdministrator is false)
-			{
-				foreach (Control control in this.Controls)
-				{
-					if (control.Name.Contains("admin"))
-					{
-						control.Enabled = false;
-					}
-				}
-			}			
+			////////////////////////////
 		}
+
 
 		private void InitializeData()
 		{
 			string initTable = UpdateAvailableTables().FirstOrDefault();
+			tableSelectedLabel.Text = initTable;			
 			RefreshDataGridView(initTable);
 		}
 
+
 		private void tableSelect_Click(object sender, EventArgs e)
 		{
-			RefreshDataGridView((sender as ToolStripItem).Name);
+			string tableName = (sender as ToolStripItem).Name;
+			tableSelectedLabel.Text = tableName;
+			RefreshDataGridView(tableName);
 		}
+
 
 		private List<string> UpdateAvailableTables()
 		{
@@ -88,6 +88,7 @@ namespace DbGui
 			return tableNames;
 		}
 
+
 		private void RefreshDataGridView(string tableName)
 		{
 			//dataGridView.Columns.Clear();
@@ -118,37 +119,6 @@ namespace DbGui
 			db.CloseConnection();
 		}
 
-		private List<string> GetColumnNames(string tableName)
-		{
-			List<string> columnsList = new List<string>();
-
-			string queryString =
-				"SELECT COLUMN_NAME " +
-				"FROM INFORMATION_SCHEMA.COLUMNS " +
-				$"WHERE TABLE_NAME = '{tableName}'";
-
-			db.OpenConnection();
-			SqlCommand command = new SqlCommand(queryString, db.sqlConnection);
-			try
-			{
-				using (SqlDataReader reader = command.ExecuteReader())
-				{
-					while (reader.Read())
-					{
-						columnsList.Add(reader.GetString(0));
-					}
-				}
-			}
-			catch (SqlException ex)
-			{
-				MessageBox.Show("Error: " + ex);
-			}
-
-			db.CloseConnection();
-
-			return columnsList;
-		}
-		
 
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
@@ -156,9 +126,24 @@ namespace DbGui
 			RefreshDataGridView(currentTableName);
 		}
 
+
 		private void insertDataButton_Click(object sender, EventArgs e)
 		{
+			string currentTableName = ((DataTable)dataGridView.DataSource).TableName;
+			var insertionForm = new InsertionForm(currentTableName);
+			insertionForm.Location = this.Location;
+			insertionForm.Show();
+		}
 
+
+		private void DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+		{
+			foreach (DataGridViewRow dGVRow in this.dataGridView.Rows)
+			{
+				dGVRow.HeaderCell.Value = $"{dGVRow.Index + 1}";
+			}
+
+			this.dataGridView.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
 		}
 	}
 }

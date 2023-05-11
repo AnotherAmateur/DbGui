@@ -61,7 +61,7 @@ namespace DbGui
 						for (int i = 1; i < input.Length; i++)
 						{
 							string[] temp = input[i].Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
-							dict[input[0]].Add(temp[0], bool.Parse(temp[1]));
+							dict[input[0]].Add(temp[0], Convert.ToBoolean(int.Parse(temp[1])));
 						}
 					}
 				}

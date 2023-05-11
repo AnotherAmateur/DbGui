@@ -20,7 +20,8 @@ namespace DbGui
 
 			if (DataBaseController.TryLoadUserPermissions() is false)
 			{
-				MessageBox.Show("Caught on an Error while reading UserPermissions file. " + DataBaseController.ExceptionMessage);
+				MessageBox.Show("Caught on an Error while reading UserPermissions file. "
+					+ DataBaseController.ExceptionMessage);
 				Environment.Exit(-1);
 			}
 
