@@ -1,0 +1,11 @@
+﻿Genres/select 1/insert 1/update 1/delete 0
+Authors/select 1/insert 1/update 1/delete 0
+Publishers/select 1/insert 1/update 1/delete 0
+Supplies/select 0/insert 1/update 0/delete 0
+Readers/select 0/insert 1/update 1/delete 1
+Books/select 1/insert 1/update 1/delete 0
+Editions/select 1/insert 1/update 1/delete 0
+SupplyEditions/select 0/insert 1/update 0/delete 0
+Librarians/select 0/insert 0/update 0/delete 0
+IssueHistory/select 0/insert 0/update 0/delete 0
+BooksInUse/select 1/insert 1/update 0/delete 0

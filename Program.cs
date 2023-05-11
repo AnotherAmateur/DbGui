@@ -18,13 +18,20 @@ namespace DbGui
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			DataBaseController db = new DataBaseController();
-			LoginForm loginForm = new LoginForm(db);
+			if (DataBaseController.TryLoadUserPermissions() is false)
+			{
+				MessageBox.Show("Caught on an Error while reading UserPermissions file. " + DataBaseController.ExceptionMessage);
+				Environment.Exit(-1);
+			}
+
+			LoginForm loginForm = new LoginForm();
 			Application.Run(loginForm);
 
-			if (db.ExceptionMessage is null)
+			if (DataBaseController.ExceptionMessage is null)
 			{
-				Application.Run(new MainFormAdmin(db));
+				Application.Run(new MainFormAdmin());
+
+
 				//if (db.IsAdministrator == true)
 				//{
 				//	//MessageBox.Show("Вход выполнен. Выданы права администратора.");

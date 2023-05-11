@@ -50,7 +50,6 @@
 			this.AuthGroupBox.TabIndex = 0;
 			this.AuthGroupBox.TabStop = false;
 			this.AuthGroupBox.Text = "Выполните вход";
-			this.AuthGroupBox.Enter += new System.EventHandler(this.groupBox1_Enter);
 			// 
 			// loginButton
 			// 
@@ -84,7 +83,6 @@
 			this.loginTextBox.Name = "loginTextBox";
 			this.loginTextBox.Size = new System.Drawing.Size(241, 20);
 			this.loginTextBox.TabIndex = 2;
-			this.loginTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
 			this.loginTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.loginTextBox_KeyDown);
 			// 
 			// passwordLabel

@@ -17,20 +17,11 @@ namespace DbGui
 	public partial class LoginForm : Form
 	{
 		private DataBaseController db;
-		public LoginForm(DataBaseController db)
-		{
-			this.db = db;
+		public LoginForm()
+		{			
 			InitializeComponent();
-		}
-
-		private void groupBox1_Enter(object sender, EventArgs e)
-		{
-
-		}
-
-		private void textBox1_TextChanged(object sender, EventArgs e)
-		{
-
+			this.Name = "Система управления библиотекой";
+			db = new DataBaseController();
 		}
 
 		private void loginButton_Click(object sender, EventArgs e)
@@ -38,15 +29,12 @@ namespace DbGui
 			if (db.OpenConnection(loginTextBox.Text, passwordTextBox.Text) is true)
 			{
 				this.Close();
+				db.CloseConnection();
 			}
 			else
 			{
-				MessageBox.Show(db.ExceptionMessage);
+				MessageBox.Show(DataBaseController.ExceptionMessage);
 			}			
-		}
-
-		private void LoginForm_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-		{
 		}
 
 		private void passwordTextBox_KeyDown(object sender, KeyEventArgs e)

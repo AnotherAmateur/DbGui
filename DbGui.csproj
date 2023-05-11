@@ -66,7 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataBaseController.cs" />
-    <Compile Include="Methods.cs" />
+    <Compile Include="FIleManager.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +113,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="UserPermissions.dicti" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

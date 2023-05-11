@@ -16,11 +16,28 @@ namespace DbGui
 	public partial class MainFormAdmin : Form
 	{
 		private DataBaseController db;
-		public MainFormAdmin(DataBaseController db)
-		{
-			this.db = db;
+
+		public MainFormAdmin()
+		{			
 			InitializeComponent();
+			this.db = new DataBaseController();
+			this.Name = "Система управления библиотекой";
 			InitializeData();
+			SetUpAdminOperations();
+		}
+
+		private void SetUpAdminOperations()
+		{
+			if (DataBaseController.IsAdministrator is false)
+			{
+				foreach (Control control in this.Controls)
+				{
+					if (control.Name.Contains("admin"))
+					{
+						control.Enabled = false;
+					}
+				}
+			}			
 		}
 
 		private void InitializeData()
@@ -44,6 +61,8 @@ namespace DbGui
 				"FROM INFORMATION_SCHEMA.TABLES " +
 				"WHERE TABLE_TYPE LIKE '%TABLE%'";
 
+
+			db.OpenConnection();
 			SqlCommand command = new SqlCommand(queryString, db.sqlConnection);
 			try
 			{
@@ -64,6 +83,7 @@ namespace DbGui
 			}
 
 			tableSelectionMenuStrip.Items.Add(fileItem);
+			db.CloseConnection();
 
 			return tableNames;
 		}
@@ -75,9 +95,10 @@ namespace DbGui
 			dataGridView.ScrollBars = ScrollBars.Both;
 
 			string queryString =
-				"SELECT TOP 100 * " +
+				"SELECT TOP 50 * " +
 				$"FROM {tableName} ";
 
+			db.OpenConnection();
 			SqlCommand command = new SqlCommand(queryString, db.sqlConnection);
 			try
 			{
@@ -85,6 +106,7 @@ namespace DbGui
 				{
 					var dataTable = new DataTable();
 					dataTable.Load(reader);
+					dataTable.TableName = tableName;
 					dataGridView.DataSource = dataTable;
 				}
 			}
@@ -92,6 +114,8 @@ namespace DbGui
 			{
 				MessageBox.Show("Caught on an Error: " + ex);
 			}
+
+			db.CloseConnection();
 		}
 
 		private List<string> GetColumnNames(string tableName)
@@ -103,6 +127,7 @@ namespace DbGui
 				"FROM INFORMATION_SCHEMA.COLUMNS " +
 				$"WHERE TABLE_NAME = '{tableName}'";
 
+			db.OpenConnection();
 			SqlCommand command = new SqlCommand(queryString, db.sqlConnection);
 			try
 			{
@@ -119,10 +144,19 @@ namespace DbGui
 				MessageBox.Show("Error: " + ex);
 			}
 
+			db.CloseConnection();
+
 			return columnsList;
 		}
+		
 
-		private void dfgToolStripMenuItem_Click(object sender, EventArgs e)
+		private void refreshButton_Click(object sender, EventArgs e)
+		{
+			string currentTableName = ((DataTable)dataGridView.DataSource).TableName;
+			RefreshDataGridView(currentTableName);
+		}
+
+		private void insertDataButton_Click(object sender, EventArgs e)
 		{
 
 		}
