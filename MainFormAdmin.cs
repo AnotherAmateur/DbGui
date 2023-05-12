@@ -96,7 +96,7 @@ namespace DbGui
 			dataGridView.ScrollBars = ScrollBars.Both;
 
 			string queryString =
-				"SELECT TOP 50 * " +
+				"SELECT TOP 100 * " +
 				$"FROM {tableName} ";
 
 			db.OpenConnection();

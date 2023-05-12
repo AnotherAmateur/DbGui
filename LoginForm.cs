@@ -27,14 +27,12 @@ namespace DbGui
 
 		private void loginButton_Click(object sender, EventArgs e)
 		{
-			if (db.OpenConnection(loginTextBox.Text, passwordTextBox.Text) is true)
-			{
-				this.Close();
+			try { db.OpenConnection(loginTextBox.Text, passwordTextBox.Text); this.Close();
 				db.CloseConnection();
 			}
-			else
+			catch(Exception ex)
 			{
-				MessageBox.Show(DataBaseController.ExceptionMessage);
+				MessageBox.Show($"Login failed. {ex.Message}");
 			}			
 		}
 

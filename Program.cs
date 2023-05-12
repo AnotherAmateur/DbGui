@@ -18,32 +18,33 @@ namespace DbGui
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			if (DataBaseController.TryLoadUserPermissions() is false)
+			try
 			{
-				MessageBox.Show("Caught on an Error while reading UserPermissions file. "
-					+ DataBaseController.ExceptionMessage);
+				DataBaseController.TryLoadUserPermissions();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
 				Environment.Exit(-1);
 			}
 
 			LoginForm loginForm = new LoginForm();
 			Application.Run(loginForm);
 
-			if (DataBaseController.ExceptionMessage is null)
-			{
-				Application.Run(new MainFormAdmin());
+			Application.Run(new MainFormAdmin());
 
 
-				//if (db.IsAdministrator == true)
-				//{
-				//	//MessageBox.Show("Вход выполнен. Выданы права администратора.");
-				//	Application.Run(new MainFormAdmin(db));
-				//}
-				//else
-				//{
-				//	//MessageBox.Show("Вход выполнен. Выданы ограниченные права.");
-				//	Application.Run(new MainFormUser());
-				//}			
-			}
+			//if (db.IsAdministrator == true)
+			//{
+			//	//MessageBox.Show("Вход выполнен. Выданы права администратора.");
+			//	Application.Run(new MainFormAdmin(db));
+			//}
+			//else
+			//{
+			//	//MessageBox.Show("Вход выполнен. Выданы ограниченные права.");
+			//	Application.Run(new MainFormUser());
+			//}			
+
 		}
 	}
 }

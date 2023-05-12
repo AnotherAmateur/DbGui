@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
@@ -14,25 +15,23 @@ namespace DbGui
 	public partial class InsertionForm : Form
 	{
 		private DataBaseController db;
+		private string tableName;
+		private List<string> columnList;
 
 		public InsertionForm(string tableName)
 		{
+			this.tableName = tableName;
 			db = new DataBaseController();
+			columnList = GetColumnNames();
 			InitializeComponent();
 			StartPosition = FormStartPosition.CenterScreen;
-			InitializeFields(tableName);
+			InitializeFields();
 		}
 
-		private void InitializeFields(string tableName)
+		private void InitializeFields()
 		{
-			foreach (string column in GetColumnNames(tableName))
+			foreach (string column in columnList)
 			{
-				int clmnLen = column.Length;
-				if (clmnLen > 1 && column.Substring(clmnLen - 2, 2).ToLower() == "id")
-				{
-					continue;
-				}
-
 				Label label = new Label();
 				label.Text = column;
 				label.Dock = DockStyle.Fill;
@@ -47,9 +46,10 @@ namespace DbGui
 				tableLayoutPanel.RowCount++;
 			}
 
+			this.MinimumSize = new System.Drawing.Size(this.Width, tableLayoutPanel.Height + 150);
 		}
 
-		private List<string> GetColumnNames(string tableName)
+		private List<string> GetColumnNames()
 		{
 			List<string> columnsList = new List<string>();
 
@@ -58,26 +58,81 @@ namespace DbGui
 				"FROM INFORMATION_SCHEMA.COLUMNS " +
 				$"WHERE TABLE_NAME = '{tableName}'";
 
-			db.OpenConnection();
-			SqlCommand command = new SqlCommand(queryString, db.sqlConnection);
 			try
 			{
-				using (SqlDataReader reader = command.ExecuteReader())
+				db.OpenConnection();
+
+				using (SqlCommand command = new SqlCommand(queryString, db.sqlConnection))
 				{
-					while (reader.Read())
+					using (SqlDataReader reader = command.ExecuteReader())
 					{
-						columnsList.Add(reader.GetString(0));
+						while (reader.Read())
+						{
+							string column = reader.GetString(0);
+							int clmnLen = column.Length;
+							if (clmnLen > 1 && column.Substring(clmnLen - 2, 2).ToLower() == "id")
+							{
+								continue;
+							}
+
+							columnsList.Add(column);
+						}
 					}
 				}
-			}
-			catch (SqlException ex)
-			{
-				MessageBox.Show("Error: " + ex);
-			}
 
-			db.CloseConnection();
+				db.CloseConnection();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 
 			return columnsList;
+		}
+
+		private void insertButton_Click(object sender, EventArgs e)
+		{
+			List<string> values = new List<string>(columnList.Count());
+
+			string queryString =
+				$"INSERT INTO {tableName} " +
+				$"({String.Join(", ", columnList)}) " +
+				$"VALUES ({"@" + String.Join(", @", columnList)})";
+
+			try
+			{
+				db.OpenConnection();
+
+				using (SqlCommand command = new SqlCommand(queryString, db.sqlConnection))
+				{
+					foreach (string column in columnList)
+					{
+						string value = tableLayoutPanel.Controls[column].Text;
+
+						if (value.Length == 0)
+						{
+							var nullValue = DBNull.Value;
+							command.Parameters.AddWithValue($"@{column}", nullValue);
+							continue;
+						}
+
+						command.Parameters.AddWithValue($"@{column}", value);
+					}
+
+					command.ExecuteNonQuery();
+				}
+
+				db.CloseConnection();
+
+				MessageBox.Show("Успешно!");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
+
+
 		}
 	}
 }

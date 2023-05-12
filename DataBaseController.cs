@@ -12,7 +12,6 @@ namespace DbGui
 	{
 		public SqlConnection sqlConnection { get; private set; }
 		public static Dictionary<string, Dictionary<string, bool>> userPermissionsDict { get; private set; }
-		public static string ExceptionMessage { get; private set; }
 		public static bool IsAdministrator { get; private set; }
 
 		public DataBaseController() { }
@@ -38,15 +37,13 @@ namespace DbGui
 				IsAdministrator = (login.Contains("_admin")) ? true : false;
 				FileManager.GetSetConnectionString(connectionString);
 				sqlConnection = cn;
-				ExceptionMessage = null;
 
 				return true;
 				//this.Invoke(new Action(() => this.Close()));
 			}
 			catch (Exception ex)
 			{
-				ExceptionMessage = $"Not connected, error: {ex.Message}";
-				return false;
+				throw new Exception($"OpenConnection Error: {ex.Message}");
 			}
 		}
 
@@ -59,14 +56,12 @@ namespace DbGui
 			{
 				cn.Open();
 				sqlConnection = cn;
-				ExceptionMessage = null;
 
 				return true;
 			}
 			catch (Exception ex)
 			{
-				ExceptionMessage = $"Error: {ex.Message}";
-				return false;
+				throw new Exception($"OpenConnection Error: {ex.Message}");
 			}
 		}
 
@@ -78,12 +73,10 @@ namespace DbGui
 				try
 				{
 					sqlConnection.Close();
-					ExceptionMessage = null;
 				}
 				catch (SqlException ex)
 				{
-					ExceptionMessage = ex.Message;
-					return false;
+					throw new Exception($"CloseConnection Error: {ex.Message}");
 				}
 			}
 
@@ -98,8 +91,7 @@ namespace DbGui
 			}
 			catch (Exception ex)
 			{
-				ExceptionMessage = ex.Message;
-				return false;
+				throw new Exception($"Can`t load user permissions: {ex.Message}");
 			}
 
 			return true;
