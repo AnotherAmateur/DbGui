@@ -50,7 +50,7 @@
 			// 
 			this.insertButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.insertButton.Location = new System.Drawing.Point(159, 70);
+			this.insertButton.Location = new System.Drawing.Point(159, 205);
 			this.insertButton.Name = "insertButton";
 			this.insertButton.Size = new System.Drawing.Size(120, 23);
 			this.insertButton.TabIndex = 1;
@@ -62,7 +62,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(464, 120);
+			this.ClientSize = new System.Drawing.Size(464, 255);
 			this.Controls.Add(this.insertButton);
 			this.Controls.Add(this.tableLayoutPanel);
 			this.MinimumSize = new System.Drawing.Size(480, 159);

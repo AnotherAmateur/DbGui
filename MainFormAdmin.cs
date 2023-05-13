@@ -10,24 +10,33 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DbGui
 {
 	public partial class MainFormAdmin : Form
 	{
 		private DataBaseController db;
+		private string currentTableName;
+		private string columnToSearch;
+		SqlDataAdapter sqlDataAdapter;
+		DataTable dataTable;
+
 
 		public MainFormAdmin()
 		{
 			InitializeComponent();
+
 			StartPosition = FormStartPosition.CenterScreen;
 			this.db = new DataBaseController();
 			this.Text = "Система управления библиотекой";
 			this.dataGridView.DataBindingComplete +=
-			new DataGridViewBindingCompleteEventHandler(this.DataBindingComplete);
+			new DataGridViewBindingCompleteEventHandler(DataBindingComplete);
+
 			InitializeData();
 			SetUpAdminOperations();
 		}
+
 
 		private void SetUpAdminOperations()
 		{
@@ -37,17 +46,27 @@ namespace DbGui
 
 		private void InitializeData()
 		{
-			string initTable = UpdateAvailableTables().FirstOrDefault();
-			tableSelectedLabel.Text = initTable;			
-			RefreshDataGridView(initTable);
+			currentTableName = UpdateAvailableTables().FirstOrDefault();
+			tableSelectedLabel.Text = currentTableName;
+			RefreshDataGridView();
+			AddColumnsToSearch();
+			var temp = new ToolStripMenuItem();
+			temp.Name = dataGridView.Columns[0].Name;
+			searchByColumn_Click(temp, null);
 		}
 
 
 		private void tableSelect_Click(object sender, EventArgs e)
 		{
-			string tableName = (sender as ToolStripItem).Name;
-			tableSelectedLabel.Text = tableName;
-			RefreshDataGridView(tableName);
+			currentTableName = (sender as ToolStripItem).Name;
+			tableSelectedLabel.Text = currentTableName;
+
+			RefreshDataGridView();
+
+			AddColumnsToSearch();
+			var temp = new ToolStripMenuItem();
+			temp.Name = dataGridView.Columns[0].Name;
+			searchByColumn_Click(temp, null);
 		}
 
 
@@ -89,47 +108,59 @@ namespace DbGui
 		}
 
 
-		private void RefreshDataGridView(string tableName)
+		private void RefreshDataGridView()
 		{
 			//dataGridView.Columns.Clear();
+
+			searchTextBox.Text = "";
 			dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			dataGridView.ScrollBars = ScrollBars.Both;
 
 			string queryString =
 				"SELECT TOP 100 * " +
-				$"FROM {tableName} ";
+				$"FROM {currentTableName} ";
+
+			sqlDataAdapter = new SqlDataAdapter();
+			sqlDataAdapter.SelectCommand = new SqlCommand(queryString, db.sqlConnection);
+
+			dataTable = new DataTable();
 
 			db.OpenConnection();
-			SqlCommand command = new SqlCommand(queryString, db.sqlConnection);
-			try
-			{
-				using (SqlDataReader reader = command.ExecuteReader())
-				{
-					var dataTable = new DataTable();
-					dataTable.Load(reader);
-					dataTable.TableName = tableName;
-					dataGridView.DataSource = dataTable;
-				}
-			}
-			catch (SqlException ex)
-			{
-				MessageBox.Show("Caught on an Error: " + ex);
-			}
+
+			sqlDataAdapter.Fill(dataTable);
 
 			db.CloseConnection();
+
+			dataGridView.DataSource = dataTable;
+
+
+			//try
+			//{
+			//	using (SqlDataReader reader = command.ExecuteReader())
+			//	{
+			//		var dataTable = new DataTable();
+			//		dataTable.Load(reader);
+			//		dataTable.TableName = currentTableName;
+			//		dataGridView.DataSource = dataTable;
+			//	}
+			//}
+			//catch (SqlException ex)
+			//{
+			//	MessageBox.Show("Caught on an Error: " + ex);
+			//}
+
 		}
 
 
 		private void refreshButton_Click(object sender, EventArgs e)
 		{
 			string currentTableName = ((DataTable)dataGridView.DataSource).TableName;
-			RefreshDataGridView(currentTableName);
+			RefreshDataGridView();
 		}
 
 
 		private void insertDataButton_Click(object sender, EventArgs e)
 		{
-			string currentTableName = ((DataTable)dataGridView.DataSource).TableName;
 			var insertionForm = new InsertionForm(currentTableName);
 			insertionForm.Location = this.Location;
 			insertionForm.Show();
@@ -144,6 +175,78 @@ namespace DbGui
 			}
 
 			this.dataGridView.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
+		}
+
+
+		private void AddColumnsToSearch()
+		{
+			searchMenuStrip.Items.Clear();
+
+			ToolStripMenuItem fileItem = new ToolStripMenuItem("Поиск по столбцу");
+
+			foreach (DataGridViewTextBoxColumn item in dataGridView.Columns)
+			{
+				var toolStripItem = fileItem.DropDownItems.Add(item.Name);
+				toolStripItem.Name = item.Name;
+				toolStripItem.Click += new EventHandler(searchByColumn_Click);
+			}
+
+			searchMenuStrip.Items.Add(fileItem);
+		}
+
+
+		private void searchByColumn_Click(object sender, EventArgs e)
+		{
+			searchTextBox.Text = "";
+			columnToSearch = (sender as ToolStripItem).Name;
+			selectedTableLabel.Text = columnToSearch;
+		}
+
+
+		private void searchTextBox_TextChanged(object sender, EventArgs e)
+		{
+			BindingSource bs = new BindingSource();
+			bs.DataSource = dataGridView.DataSource;
+			bs.Filter = $"Convert({columnToSearch}, 'System.String') like '{searchTextBox.Text}%'";
+			dataGridView.DataSource = bs.DataSource;
+		}
+
+
+		private void deleteRowButton_Click(object sender, EventArgs e)
+		{
+			foreach (DataGridViewRow row in dataGridView.SelectedRows)
+			{
+				dataGridView.Rows.RemoveAt(row.Index);
+			}
+		}
+
+
+		private void saveChangesButton_Click(object sender, EventArgs e)
+		{
+			var changes = ((DataTable)dataGridView.DataSource).GetChanges();
+			if (changes is null)
+			{
+				MessageBox.Show("Изменений не было");
+				return;
+			}
+
+			try
+			{
+				MessageBox.Show("Ожидайте уведомления о завершении фиксации");
+
+				db.OpenConnection();
+
+				sqlDataAdapter.UpdateCommand = new SqlCommandBuilder(sqlDataAdapter).GetUpdateCommand();
+				int rowCount = sqlDataAdapter.Update(changes);
+				MessageBox.Show($"Обновлено строк: {rowCount.ToString()}");
+
+				db.CloseConnection();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("Caught on an Error: " + ex);
+			}
+
 		}
 	}
 }

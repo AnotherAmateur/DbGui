@@ -130,9 +130,6 @@ namespace DbGui
 			{
 				MessageBox.Show(ex.Message);
 			}
-
-
-
 		}
 	}
 }
