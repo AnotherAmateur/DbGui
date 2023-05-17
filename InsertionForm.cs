@@ -49,28 +49,82 @@ namespace DbGui
 			this.MinimumSize = new System.Drawing.Size(this.Width, tableLayoutPanel.Height + 150);
 		}
 
-		private List<string> GetColumnNames()
-		{
-			List<string> columnsList = new List<string>();
 
-			string queryString =
-				"SELECT COLUMN_NAME " +
-				"FROM INFORMATION_SCHEMA.COLUMNS " +
-				$"WHERE TABLE_NAME = '{tableName}'";
+		private List<string> GetPirmaryKeyColumns()
+		{
+			List<string> result = new List<string>();
+
+			db.OpenConnection();
+
+			string sqlQuery =
+				$"SELECT COLUMN_NAME" +
+				$" FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE" +
+				$" WHERE OBJECTPROPERTY(OBJECT_ID(constraint_name), 'IsPrimaryKey') = 1 " +
+				$"AND table_name = '{tableName}'";
 
 			try
 			{
 				db.OpenConnection();
 
-				using (SqlCommand command = new SqlCommand(queryString, db.sqlConnection))
+				using (SqlCommand command = new SqlCommand(sqlQuery, db.sqlConnection))
+				{
+					using (SqlDataReader reader = command.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							result.Add(reader.GetString(0));
+						}
+					}
+				}
+
+				db.CloseConnection();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
+			return result;
+		}
+
+
+		private List<string> GetColumnNames()
+		{
+			List<string> columnsList = new List<string>();
+
+			string queryGetColumns =
+				"SELECT COLUMN_NAME " +
+				"FROM INFORMATION_SCHEMA.COLUMNS " +
+				$"WHERE TABLE_NAME = '{tableName}'";
+
+			string queryCheckIdentityProp =
+				"SELECT COLUMN_NAME " +
+				"FROM INFORMATION_SCHEMA.COLUMNS " +
+				$"WHERE TABLE_NAME = '{tableName}' AND COLUMN_NAME " +
+				$"IN (SELECT name FROM sys.identity_columns WHERE OBJECT_NAME(object_id) = '{tableName}')";
+
+			bool haveIdentityProp;
+
+			try
+			{
+				db.OpenConnection();
+
+				using (SqlCommand command = new SqlCommand(queryCheckIdentityProp, db.sqlConnection))
+				{
+					using (SqlDataReader reader = command.ExecuteReader())
+					{
+						haveIdentityProp = reader.Read();
+					}
+				}
+
+				using (SqlCommand command = new SqlCommand(queryGetColumns, db.sqlConnection))
 				{
 					using (SqlDataReader reader = command.ExecuteReader())
 					{
 						while (reader.Read())
 						{
 							string column = reader.GetString(0);
-							int clmnLen = column.Length;
-							if (clmnLen > 1 && column.Substring(clmnLen - 2, 2).ToLower() == "id")
+							if (haveIdentityProp && GetPirmaryKeyColumns().Contains(column))
 							{
 								continue;
 							}
