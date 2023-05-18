@@ -40,6 +40,7 @@
 			this.saveChangesButton = new System.Windows.Forms.Button();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
 			this.getChildernMenuStrip = new System.Windows.Forms.MenuStrip();
+			this.reportButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.SuspendLayout();
 			this.SuspendLayout();
@@ -52,7 +53,7 @@
 			this.tableSelectionMenuStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
 			this.tableSelectionMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.tableSelectionMenuStrip.Name = "tableSelectionMenuStrip";
-			this.tableSelectionMenuStrip.Size = new System.Drawing.Size(209, 24);
+			this.tableSelectionMenuStrip.Size = new System.Drawing.Size(162, 24);
 			this.tableSelectionMenuStrip.TabIndex = 0;
 			this.tableSelectionMenuStrip.Text = "Таблица";
 			// 
@@ -60,7 +61,7 @@
 			// 
 			this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.refreshButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.refreshButton.Location = new System.Drawing.Point(846, 9);
+			this.refreshButton.Location = new System.Drawing.Point(799, 9);
 			this.refreshButton.Name = "refreshButton";
 			this.refreshButton.Size = new System.Drawing.Size(75, 23);
 			this.refreshButton.TabIndex = 2;
@@ -72,7 +73,7 @@
 			// 
 			this.insertDataButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.insertDataButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.insertDataButton.Location = new System.Drawing.Point(181, 418);
+			this.insertDataButton.Location = new System.Drawing.Point(181, 479);
 			this.insertDataButton.Name = "insertDataButton";
 			this.insertDataButton.Size = new System.Drawing.Size(102, 24);
 			this.insertDataButton.TabIndex = 0;
@@ -128,7 +129,7 @@
 			// 
 			this.deleteRowButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.deleteRowButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.deleteRowButton.Location = new System.Drawing.Point(12, 418);
+			this.deleteRowButton.Location = new System.Drawing.Point(12, 479);
 			this.deleteRowButton.Name = "deleteRowButton";
 			this.deleteRowButton.Size = new System.Drawing.Size(164, 24);
 			this.deleteRowButton.TabIndex = 10;
@@ -140,7 +141,7 @@
 			// 
 			this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.saveChangesButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.saveChangesButton.Location = new System.Drawing.Point(768, 418);
+			this.saveChangesButton.Location = new System.Drawing.Point(721, 479);
 			this.saveChangesButton.Name = "saveChangesButton";
 			this.saveChangesButton.Size = new System.Drawing.Size(154, 24);
 			this.saveChangesButton.TabIndex = 11;
@@ -156,8 +157,8 @@
 			this.splitContainer.Location = new System.Drawing.Point(5, 51);
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			this.splitContainer.Size = new System.Drawing.Size(917, 361);
-			this.splitContainer.SplitterDistance = 209;
+			this.splitContainer.Size = new System.Drawing.Size(870, 422);
+			this.splitContainer.SplitterDistance = 244;
 			this.splitContainer.TabIndex = 13;
 			// 
 			// getChildernMenuStrip
@@ -167,15 +168,28 @@
 			this.getChildernMenuStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
 			this.getChildernMenuStrip.Location = new System.Drawing.Point(77, 0);
 			this.getChildernMenuStrip.Name = "getChildernMenuStrip";
-			this.getChildernMenuStrip.Size = new System.Drawing.Size(132, 24);
+			this.getChildernMenuStrip.Size = new System.Drawing.Size(209, 24);
 			this.getChildernMenuStrip.TabIndex = 14;
 			this.getChildernMenuStrip.Text = "Выбрать дочернюю таблицу";
+			// 
+			// reportButton
+			// 
+			this.reportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.reportButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.reportButton.Location = new System.Drawing.Point(12, 521);
+			this.reportButton.Name = "reportButton";
+			this.reportButton.Size = new System.Drawing.Size(110, 23);
+			this.reportButton.TabIndex = 15;
+			this.reportButton.Text = "Составить отчет";
+			this.reportButton.UseVisualStyleBackColor = true;
+			this.reportButton.Click += new System.EventHandler(this.reportButton_Click);
 			// 
 			// MainFormAdmin
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(933, 534);
+			this.ClientSize = new System.Drawing.Size(886, 595);
+			this.Controls.Add(this.reportButton);
 			this.Controls.Add(this.splitContainer);
 			this.Controls.Add(this.saveChangesButton);
 			this.Controls.Add(this.deleteRowButton);
@@ -212,5 +226,6 @@
 		private System.Windows.Forms.Button saveChangesButton;
 		private System.Windows.Forms.SplitContainer splitContainer;
 		private System.Windows.Forms.MenuStrip getChildernMenuStrip;
+		private System.Windows.Forms.Button reportButton;
 	}
 }

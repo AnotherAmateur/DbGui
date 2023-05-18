@@ -36,7 +36,7 @@ namespace DbGui
 			sqlDataAdapterMaster = new SqlDataAdapter();
 
 			dataGridViewMaster = new DataGridView();
-			dataGridViewMaster.BackgroundColor = Color.FloralWhite;
+			dataGridViewMaster.BackgroundColor = Color.WhiteSmoke;
 			dataGridViewMaster.Dock = DockStyle.Fill;
 			dataGridViewMaster.AllowUserToAddRows = false;
 			dataGridViewMaster.AllowUserToDeleteRows = false;
@@ -320,7 +320,7 @@ namespace DbGui
 		{
 			BindingSource bs = new BindingSource();
 			bs.DataSource = dataGridViewMaster.DataSource;
-			bs.Filter = $"Convert({columnToSearch}, 'System.String') like '{searchTextBox.Text}%'";
+			bs.Filter = $"Convert({columnToSearch}, 'System.String') like '%{searchTextBox.Text}%'";
 			dataGridViewMaster.DataSource = bs.DataSource;
 		}
 
@@ -472,6 +472,12 @@ namespace DbGui
 					MessageBox.Show("Caught on an Error: " + ex);
 				}
 			}
+		}
+
+
+		private void reportButton_Click(object sender, EventArgs e)
+		{
+			(new ReportsMenuForm()).ShowDialog();
 		}
 	}
 }

@@ -12,7 +12,13 @@ namespace DbGui
 	{
 		public SqlConnection sqlConnection { get; private set; }
 		public static Dictionary<string, Dictionary<string, bool>> userPermissionsDict { get; private set; }
-		public static bool IsAdministrator { get; private set; }
+		public static UserTypes UserType { get; private set; }
+
+		public enum UserTypes
+		{
+			Administrator,
+			Other
+		}
 
 		public DataBaseController() { }
 
@@ -34,7 +40,7 @@ namespace DbGui
 			try
 			{
 				cn.Open();
-				IsAdministrator = (login.Contains("_admin")) ? true : false;
+				//IsAdministrator = (login.Contains("_admin")) ? true : false;
 				FileManager.GetSetConnectionString(connectionString);
 				sqlConnection = cn;
 
