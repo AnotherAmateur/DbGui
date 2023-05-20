@@ -49,6 +49,7 @@ namespace DbGui
 			dataGridViewRelated.AllowUserToDeleteRows = false;
 			dataGridViewRelated.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			dataGridViewRelated.ScrollBars = ScrollBars.Both;
+			dataGridViewRelated.ReadOnly = true;
 
 			splitContainer.Orientation = Orientation.Horizontal;
 			splitContainer.Panel1.Controls.Add(dataGridViewMaster);
@@ -65,18 +66,35 @@ namespace DbGui
 
 			dataGridViewMaster.SelectionChanged += new EventHandler(dataGridViewMaster_SelectionChanged);
 
-			SetUpAdminOperations();
-
 			FillChildernMenu();
 		}
 
 
 		private void SetUpAdminOperations()
 		{
-			////////////////////////////
-			///
-			/// 
-
+			if (DataBaseController.UserType is DataBaseController.UserTypes.Other)
+			{
+				foreach (var tablePermissions in DataBaseController.userPermissionsDict[currentTableName])
+				{
+					switch (tablePermissions.Key)
+					{
+						case "delete":
+							this.deleteRowButton.Enabled = tablePermissions.Value;
+							break;
+						case "insert":
+							this.insertDataButton.Enabled = tablePermissions.Value;
+							break;
+						case "update":
+							dataGridViewMaster.ReadOnly = !tablePermissions.Value;
+							break;
+						case "select":
+							dataGridViewMaster.Visible = tablePermissions.Value;
+							break;
+						default:
+							break;
+					}
+				}
+			}
 		}
 
 
@@ -127,6 +145,7 @@ namespace DbGui
 			RefreshDataGridView();
 			FillChildernMenu();
 			AddColumnsToSearch();
+			SetUpAdminOperations();
 
 			splitContainer.Panel2Collapsed = true;
 			dataGridViewRelated.DataSource = null;
@@ -194,11 +213,19 @@ namespace DbGui
 
 			dataTable = new DataTable();
 
-			db.OpenConnection();
+			try
+			{
+				db.OpenConnection();
 
-			sqlDataAdapterMaster.Fill(dataTable);
+				sqlDataAdapterMaster.Fill(dataTable);
 
-			db.CloseConnection();
+				db.CloseConnection();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+				Environment.Exit(-1);
+			}		
 
 			dataGridViewMaster.DataSource = dataTable;
 		}
@@ -215,7 +242,7 @@ namespace DbGui
 		{
 			var insertionForm = new InsertionForm(currentTableName);
 			insertionForm.Location = this.Location;
-			insertionForm.Show();
+			insertionForm.ShowDialog();
 		}
 
 
@@ -367,9 +394,11 @@ namespace DbGui
 		{
 			currentTableName = UpdateAvailableTables().FirstOrDefault();
 			tableSelectedLabel.Text = currentTableName;
+
 			RefreshDataGridView();
 			AddColumnsToSearch();
 			FillChildernMenu();
+			SetUpAdminOperations();
 
 			var temp = new ToolStripMenuItem();
 			temp.Name = dataGridViewMaster.Columns[0].Name;
@@ -478,6 +507,14 @@ namespace DbGui
 		private void reportButton_Click(object sender, EventArgs e)
 		{
 			(new ReportsMenuForm()).ShowDialog();
+		}
+
+
+		private void openViewsButton_Click(object sender, EventArgs e)
+		{
+			this.Hide();
+			(new ViewsForm()).ShowDialog();
+			this.Show();
 		}
 	}
 }

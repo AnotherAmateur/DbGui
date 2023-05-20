@@ -1,6 +1,6 @@
 ﻿namespace DbGui
 {
-	partial class PeportForm2
+	partial class ReportForm2
 	{
 		/// <summary>
 		/// Required designer variable.

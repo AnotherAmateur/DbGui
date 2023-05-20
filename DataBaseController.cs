@@ -20,32 +20,36 @@ namespace DbGui
 			Other
 		}
 
-		public DataBaseController() { }
+		public DataBaseController() {
+		}
 
 		public bool OpenConnection(string login, string password)
 		{
-			if (login == "")
-			{
-				login = "admin";
-				password = "1234";
-			}
-
 			string connectionString = "Data Source=PURPLESKY;" +
 								  "Initial Catalog=LibraryBD;" +
 								  $"User id={login};" +
 								  $"Password={password};";
 
-
 			SqlConnection cn = new SqlConnection(connectionString);
 			try
 			{
 				cn.Open();
-				//IsAdministrator = (login.Contains("_admin")) ? true : false;
 				FileManager.GetSetConnectionString(connectionString);
 				sqlConnection = cn;
 
+				string getLoginTypeQuery = $"SELECT IS_SRVROLEMEMBER('sysadmin', '{login}')";
+				using (SqlCommand command = new SqlCommand(getLoginTypeQuery, cn))
+				{
+					using (SqlDataReader reader = command.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							UserType = (reader.GetInt32(0) == 1) ? UserTypes.Administrator : UserTypes.Other;
+						}
+					}
+				}
+
 				return true;
-				//this.Invoke(new Action(() => this.Close()));
 			}
 			catch (Exception ex)
 			{
@@ -88,6 +92,7 @@ namespace DbGui
 
 			return true;
 		}
+
 
 		public static bool TryLoadUserPermissions()
 		{

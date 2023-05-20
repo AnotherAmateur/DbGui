@@ -81,8 +81,8 @@
 			this.richTextBox1.Name = "richTextBox1";
 			this.richTextBox1.Size = new System.Drawing.Size(569, 56);
 			this.richTextBox1.TabIndex = 3;
-			this.richTextBox1.Text = "По заданному издателю построить список авторов вместе с количеством книг этих авт" +
-    "оров, изданных указанным издателем";
+			this.richTextBox1.Text = "По рег. номеру издателя построить список авторов вместе с количеством книг этих а" +
+    "второв, изданных указанным издателем";
 			// 
 			// richTextBox2
 			// 
@@ -145,6 +145,7 @@
 			this.Controls.Add(this.getDebtorsListRadioButton);
 			this.Controls.Add(this.getReaderHistoryRadioButton);
 			this.Controls.Add(this.getAuthorsCopiesByPublisherRadioButton);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Name = "ReportsMenuForm";
 			this.Text = "ReportsMenuForm";
 			this.ResumeLayout(false);

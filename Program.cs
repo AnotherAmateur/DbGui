@@ -28,23 +28,18 @@ namespace DbGui
 				Environment.Exit(-1);
 			}
 
-			LoginForm loginForm = new LoginForm();
-			Application.Run(loginForm);
+			Application.Run(new LoginForm());
+
+			if (DataBaseController.UserType is DataBaseController.UserTypes.Administrator)
+			{
+				MessageBox.Show("Вход выполнен. Выданы права администратора.");
+			}
+			else
+			{
+				MessageBox.Show("Вход выполнен. Выданы ограниченные права.");
+			}
 
 			Application.Run(new MainFormAdmin());
-
-
-			//if (db.IsAdministrator == true)
-			//{
-			//	//MessageBox.Show("Вход выполнен. Выданы права администратора.");
-			//	Application.Run(new MainFormAdmin(db));
-			//}
-			//else
-			//{
-			//	//MessageBox.Show("Вход выполнен. Выданы ограниченные права.");
-			//	Application.Run(new MainFormUser());
-			//}			
-
 		}
 	}
 }

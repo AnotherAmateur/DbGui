@@ -29,25 +29,23 @@ namespace DbGui
 				return;
 			}
 
-			this.WindowState = FormWindowState.Minimized;		
+			this.Hide();		
 			switch (checkedButton.Name)
 			{
 				case "getDebtorsListRadioButton":					
 					(new ReportForm1()).ShowDialog();
 					break;
-				case "getReaderHistoryRadioButton":
-					//storeProcName = "usp_GetReaderHistory";
-					//(new ReportForm2(this.readerTextBox.Text)).ShowDialog();
+				case "getReaderHistoryRadioButton":				
+					(new ReportForm2(this.readerTextBox.Text)).ShowDialog();
 					break;
-				case "getAuthorsCopiesByPublisherRadioButton":
-					//storeProcName = "usp_GetAuthorsCopiesByPublisher";
-					//(new ReportForm3(this.publisherTextBox.Text)).ShowDialog();
+				case "getAuthorsCopiesByPublisherRadioButton":				
+					(new ReportForm3(this.publisherTextBox.Text)).ShowDialog();
 					break;
 				default:
 					break;
 			}
 
-			this.WindowState = FormWindowState.Normal;
+			this.Show();
 		}
 	}
 }

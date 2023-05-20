@@ -24,7 +24,7 @@ namespace DbGui
 			db = new DataBaseController();
 			columnList = GetColumnNames();
 			InitializeComponent();
-			StartPosition = FormStartPosition.CenterScreen;
+			StartPosition = FormStartPosition.CenterParent;
 			InitializeFields();
 		}
 
@@ -144,14 +144,16 @@ namespace DbGui
 			return columnsList;
 		}
 
+
 		private void insertButton_Click(object sender, EventArgs e)
 		{
 			List<string> values = new List<string>(columnList.Count());
+			Dictionary<string, string> columnsType = GetColumnsType();
 
 			string queryString =
 				$"INSERT INTO {tableName} " +
-				$"({String.Join(", ", columnList)}) " +
-				$"VALUES ({"@" + String.Join(", @", columnList)})";
+				$"({string.Join(", ", columnList)}) " +
+				$"VALUES ({string.Join(", ", columnList.Select(c => $"CONVERT({columnsType[c]}, @{c})"))})";
 
 			try
 			{
@@ -184,6 +186,42 @@ namespace DbGui
 			{
 				MessageBox.Show(ex.Message);
 			}
+		}
+
+
+		private Dictionary<string, string> GetColumnsType()
+		{
+			Dictionary<string, string> columnsType = new Dictionary<string, string>();
+
+			string queryString =
+				"SELECT COLUMN_NAME" +
+				", DATA_TYPE " +
+				"FROM INFORMATION_SCHEMA.COLUMNS " +
+				$"WHERE TABLE_NAME = '{tableName}'";
+
+			try
+			{
+				db.OpenConnection();
+
+				using (SqlCommand command = new SqlCommand(queryString, db.sqlConnection))
+				{
+					using (SqlDataReader reader = command.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							columnsType.Add(reader.GetString(0), reader.GetString(1));
+						}
+					}
+				}
+
+				db.CloseConnection();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+
+			return columnsType;
 		}
 	}
 }

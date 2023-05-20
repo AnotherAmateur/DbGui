@@ -11,41 +11,39 @@ using System.Windows.Forms;
 
 namespace DbGui
 {
-	public partial class ReportForm3 : Form
+	public partial class ReportForm2 : Form
 	{
 		private DataGridView dataGridView;
 		DataBaseController db;
-		private const string storeProcName = "usp_GetAuthorsCopiesByPublisher";
+		private const string storeProcName = "usp_GetReaderHistory";
 
-		public ReportForm3(string publisher)
+		public ReportForm2(string readerTicket)
 		{
 			InitializeComponent();
 
 			StartPosition = FormStartPosition.CenterParent;
 
 			dataGridView = new DataGridView();
-			dataGridView.Columns.Add("", $"Авторы");
-			dataGridView.Columns.Add("", $"Число копий книг автора, напечатанных издателем c рег. номером: {publisher}");
-			//dataGridView.Columns[0].Visible = true;
+			dataGridView.Columns.Add("Books", $"Названия книг, прочитанных читателем с номером билета: {readerTicket}");
+			dataGridView.Columns[0].Visible = true;
 			dataGridView.BackgroundColor = Color.WhiteSmoke;
 			dataGridView.Dock = DockStyle.Fill;
 			dataGridView.AllowUserToAddRows = false;
 			dataGridView.AllowUserToDeleteRows = false;
 			dataGridView.ScrollBars = ScrollBars.Both;
-			dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+			dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;			
 			dataGridView.AutoGenerateColumns = false;
 			Controls.Add(dataGridView);
 			dataGridView.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(dataBindingComplete);
 
 			db = new DataBaseController();
 
-			DisplayData(CallStoredProc(publisher));
+			DisplayBooksList(CallStoredProc(readerTicket));
 		}
 
-		private Dictionary<string, int> CallStoredProc(string publisher)
+		private List<string> CallStoredProc(string readerTicket)
 		{
 			string data = "";
-			Dictionary<string, int> result = new Dictionary<string, int>();
 
 			try
 			{
@@ -58,20 +56,21 @@ namespace DbGui
 					SqlParameter inputValue = new SqlParameter();
 					inputValue.Direction = ParameterDirection.Input;
 					inputValue.SqlDbType = SqlDbType.Int;
-					inputValue.ParameterName = "@publisherRegNum";
-					inputValue.Value = publisher;
+					inputValue.ParameterName = "@readerID";
+					inputValue.Value = readerTicket;
 					command.Parameters.Add(inputValue);
 
 					SqlParameter returnValue = new SqlParameter();
 					returnValue.Direction = ParameterDirection.Output;
 					returnValue.SqlDbType = SqlDbType.NVarChar;
-					returnValue.ParameterName = "@authorsCopiesList";
+					returnValue.ParameterName = "@booksList";
 					returnValue.Size = -1;
 					command.Parameters.Add(returnValue);
 
 					command.ExecuteNonQuery();
 
-					data = command.Parameters["@authorsCopiesList"].Value.ToString();
+					data = command.Parameters["@booksList"].Value.ToString();
+
 				}
 
 				db.CloseConnection();
@@ -81,22 +80,15 @@ namespace DbGui
 				MessageBox.Show(ex.Message);
 			}
 
-
-			foreach (var item in data.Split(';'))
-			{
-				string[] tmp = item.Split('/');
-				result.Add(tmp[0], int.Parse(tmp[1]));
-			}
-
-			return result;
+			return data.Split(';').ToList(); ;
 		}
 
 
-		private void DisplayData(Dictionary<string, int> authorsCopies)
+		private void DisplayBooksList(List<string> books)
 		{
-			foreach (var item in authorsCopies)
+			foreach (var book in books)
 			{
-				dataGridView.Rows.Add(item.Key, item.Value);
+				dataGridView.Rows.Add(book);
 			}
 		}
 

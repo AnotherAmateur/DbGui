@@ -1,6 +1,6 @@
 ﻿namespace DbGui
 {
-	partial class MainFormAdmin
+	partial class ViewsForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,54 +28,51 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tableSelectionMenuStrip = new System.Windows.Forms.MenuStrip();
-			this.refreshButton = new System.Windows.Forms.Button();
+			this.viewSelectionMenuStrip = new System.Windows.Forms.MenuStrip();
+			this.refreshViewButton = new System.Windows.Forms.Button();
 			this.insertDataButton = new System.Windows.Forms.Button();
 			this.tableSelectedLabel = new System.Windows.Forms.Label();
 			this.searchMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.таблицыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.searchTextBox = new System.Windows.Forms.TextBox();
 			this.selectedTableLabel = new System.Windows.Forms.Label();
-			this.deleteRowButton = new System.Windows.Forms.Button();
 			this.saveChangesButton = new System.Windows.Forms.Button();
 			this.splitContainer = new System.Windows.Forms.SplitContainer();
-			this.getChildernMenuStrip = new System.Windows.Forms.MenuStrip();
-			this.reportButton = new System.Windows.Forms.Button();
-			this.openViewsButton = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
+			this.viewHeaderLabel = new System.Windows.Forms.Label();
+			this.rowsDeleteButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
 			this.splitContainer.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// tableSelectionMenuStrip
+			// viewSelectionMenuStrip
 			// 
-			this.tableSelectionMenuStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.viewSelectionMenuStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.tableSelectionMenuStrip.Dock = System.Windows.Forms.DockStyle.None;
-			this.tableSelectionMenuStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
-			this.tableSelectionMenuStrip.Location = new System.Drawing.Point(0, 0);
-			this.tableSelectionMenuStrip.Name = "tableSelectionMenuStrip";
-			this.tableSelectionMenuStrip.Size = new System.Drawing.Size(162, 24);
-			this.tableSelectionMenuStrip.TabIndex = 0;
-			this.tableSelectionMenuStrip.Text = "Таблица";
+			this.viewSelectionMenuStrip.Dock = System.Windows.Forms.DockStyle.None;
+			this.viewSelectionMenuStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
+			this.viewSelectionMenuStrip.Location = new System.Drawing.Point(0, 0);
+			this.viewSelectionMenuStrip.Name = "viewSelectionMenuStrip";
+			this.viewSelectionMenuStrip.Size = new System.Drawing.Size(162, 24);
+			this.viewSelectionMenuStrip.TabIndex = 0;
+			this.viewSelectionMenuStrip.Text = "Таблица";
 			// 
-			// refreshButton
+			// refreshViewButton
 			// 
-			this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.refreshButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.refreshButton.Location = new System.Drawing.Point(767, 13);
-			this.refreshButton.Name = "refreshButton";
-			this.refreshButton.Size = new System.Drawing.Size(107, 32);
-			this.refreshButton.TabIndex = 2;
-			this.refreshButton.Text = "Обновить таблицу";
-			this.refreshButton.UseVisualStyleBackColor = true;
-			this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+			this.refreshViewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.refreshViewButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.refreshViewButton.Location = new System.Drawing.Point(729, 12);
+			this.refreshViewButton.Name = "refreshViewButton";
+			this.refreshViewButton.Size = new System.Drawing.Size(145, 33);
+			this.refreshViewButton.TabIndex = 2;
+			this.refreshViewButton.Text = "Обновить представление";
+			this.refreshViewButton.UseVisualStyleBackColor = true;
+			this.refreshViewButton.Click += new System.EventHandler(this.refreshButton_Click);
 			// 
 			// insertDataButton
 			// 
 			this.insertDataButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.insertDataButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.insertDataButton.Location = new System.Drawing.Point(212, 502);
+			this.insertDataButton.Location = new System.Drawing.Point(5, 544);
 			this.insertDataButton.Name = "insertDataButton";
 			this.insertDataButton.Size = new System.Drawing.Size(105, 32);
 			this.insertDataButton.TabIndex = 0;
@@ -86,7 +83,7 @@
 			// tableSelectedLabel
 			// 
 			this.tableSelectedLabel.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.tableSelectedLabel.Location = new System.Drawing.Point(210, 25);
+			this.tableSelectedLabel.Location = new System.Drawing.Point(97, 30);
 			this.tableSelectedLabel.Name = "tableSelectedLabel";
 			this.tableSelectedLabel.Size = new System.Drawing.Size(206, 23);
 			this.tableSelectedLabel.TabIndex = 4;
@@ -127,23 +124,11 @@
 			this.selectedTableLabel.TabIndex = 9;
 			this.selectedTableLabel.Text = "None";
 			// 
-			// deleteRowButton
-			// 
-			this.deleteRowButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.deleteRowButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.deleteRowButton.Location = new System.Drawing.Point(13, 502);
-			this.deleteRowButton.Name = "deleteRowButton";
-			this.deleteRowButton.Size = new System.Drawing.Size(164, 32);
-			this.deleteRowButton.TabIndex = 10;
-			this.deleteRowButton.Text = "Удалить выделенную строку";
-			this.deleteRowButton.UseVisualStyleBackColor = true;
-			this.deleteRowButton.Click += new System.EventHandler(this.deleteRowButton_Click);
-			// 
 			// saveChangesButton
 			// 
 			this.saveChangesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.saveChangesButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.saveChangesButton.Location = new System.Drawing.Point(721, 502);
+			this.saveChangesButton.Location = new System.Drawing.Point(720, 544);
 			this.saveChangesButton.Name = "saveChangesButton";
 			this.saveChangesButton.Size = new System.Drawing.Size(154, 32);
 			this.saveChangesButton.TabIndex = 11;
@@ -159,77 +144,51 @@
 			this.splitContainer.Location = new System.Drawing.Point(5, 51);
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			this.splitContainer.Size = new System.Drawing.Size(870, 436);
-			this.splitContainer.SplitterDistance = 252;
+			this.splitContainer.Size = new System.Drawing.Size(870, 471);
+			this.splitContainer.SplitterDistance = 271;
 			this.splitContainer.TabIndex = 13;
 			// 
-			// getChildernMenuStrip
+			// viewHeaderLabel
 			// 
-			this.getChildernMenuStrip.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.getChildernMenuStrip.Dock = System.Windows.Forms.DockStyle.None;
-			this.getChildernMenuStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
-			this.getChildernMenuStrip.Location = new System.Drawing.Point(77, 0);
-			this.getChildernMenuStrip.Name = "getChildernMenuStrip";
-			this.getChildernMenuStrip.Size = new System.Drawing.Size(209, 24);
-			this.getChildernMenuStrip.TabIndex = 14;
-			this.getChildernMenuStrip.Text = "Выбрать дочернюю таблицу";
+			this.viewHeaderLabel.AutoSize = true;
+			this.viewHeaderLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.viewHeaderLabel.Location = new System.Drawing.Point(2, 35);
+			this.viewHeaderLabel.Name = "viewHeaderLabel";
+			this.viewHeaderLabel.Size = new System.Drawing.Size(89, 13);
+			this.viewHeaderLabel.TabIndex = 17;
+			this.viewHeaderLabel.Text = "Представление:";
 			// 
-			// reportButton
+			// rowsDeleteButton
 			// 
-			this.reportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.reportButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.reportButton.Location = new System.Drawing.Point(13, 540);
-			this.reportButton.Name = "reportButton";
-			this.reportButton.Size = new System.Drawing.Size(104, 32);
-			this.reportButton.TabIndex = 15;
-			this.reportButton.Text = "Составить отчет";
-			this.reportButton.UseVisualStyleBackColor = true;
-			this.reportButton.Click += new System.EventHandler(this.reportButton_Click);
+			this.rowsDeleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.rowsDeleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			this.rowsDeleteButton.Location = new System.Drawing.Point(116, 544);
+			this.rowsDeleteButton.Name = "rowsDeleteButton";
+			this.rowsDeleteButton.Size = new System.Drawing.Size(167, 32);
+			this.rowsDeleteButton.TabIndex = 18;
+			this.rowsDeleteButton.Text = "Удалить выделенную строку";
+			this.rowsDeleteButton.UseVisualStyleBackColor = true;
+			this.rowsDeleteButton.Click += new System.EventHandler(this.rowsDeleteButton_Click);
 			// 
-			// openViewsButton
-			// 
-			this.openViewsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.openViewsButton.Location = new System.Drawing.Point(153, 540);
-			this.openViewsButton.Name = "openViewsButton";
-			this.openViewsButton.Size = new System.Drawing.Size(164, 32);
-			this.openViewsButton.TabIndex = 16;
-			this.openViewsButton.Text = "Перейти к представлениям";
-			this.openViewsButton.UseVisualStyleBackColor = true;
-			this.openViewsButton.Click += new System.EventHandler(this.openViewsButton_Click);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.label1.Location = new System.Drawing.Point(151, 30);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(53, 13);
-			this.label1.TabIndex = 17;
-			this.label1.Text = "Таблица:";
-			// 
-			// MainFormAdmin
+			// ViewsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(886, 595);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.openViewsButton);
-			this.Controls.Add(this.reportButton);
+			this.ClientSize = new System.Drawing.Size(886, 601);
+			this.Controls.Add(this.rowsDeleteButton);
+			this.Controls.Add(this.viewHeaderLabel);
 			this.Controls.Add(this.splitContainer);
 			this.Controls.Add(this.saveChangesButton);
-			this.Controls.Add(this.deleteRowButton);
 			this.Controls.Add(this.selectedTableLabel);
 			this.Controls.Add(this.searchTextBox);
 			this.Controls.Add(this.insertDataButton);
 			this.Controls.Add(this.tableSelectedLabel);
-			this.Controls.Add(this.refreshButton);
-			this.Controls.Add(this.tableSelectionMenuStrip);
+			this.Controls.Add(this.refreshViewButton);
+			this.Controls.Add(this.viewSelectionMenuStrip);
 			this.Controls.Add(this.searchMenuStrip);
-			this.Controls.Add(this.getChildernMenuStrip);
-			this.MainMenuStrip = this.getChildernMenuStrip;
-			this.Name = "MainFormAdmin";
-			this.Text = "MainForm";
-			this.Load += new System.EventHandler(this.MainFormAdmin_Load);
+			this.Name = "ViewsForm";
+			this.Text = "Представления";
+			this.Load += new System.EventHandler(this.ViewsForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
 			this.splitContainer.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -239,20 +198,17 @@
 
 		#endregion
 
-		private System.Windows.Forms.MenuStrip tableSelectionMenuStrip;
-		private System.Windows.Forms.Button refreshButton;
+		private System.Windows.Forms.MenuStrip viewSelectionMenuStrip;
+		private System.Windows.Forms.Button refreshViewButton;
 		private System.Windows.Forms.Button insertDataButton;
 		private System.Windows.Forms.Label tableSelectedLabel;
 		private System.Windows.Forms.MenuStrip searchMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem таблицыToolStripMenuItem;
 		private System.Windows.Forms.TextBox searchTextBox;
 		private System.Windows.Forms.Label selectedTableLabel;
-		private System.Windows.Forms.Button deleteRowButton;
 		private System.Windows.Forms.Button saveChangesButton;
 		private System.Windows.Forms.SplitContainer splitContainer;
-		private System.Windows.Forms.MenuStrip getChildernMenuStrip;
-		private System.Windows.Forms.Button reportButton;
-		private System.Windows.Forms.Button openViewsButton;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label viewHeaderLabel;
+		private System.Windows.Forms.Button rowsDeleteButton;
 	}
 }

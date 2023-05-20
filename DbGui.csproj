@@ -79,23 +79,23 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewsForm.Designer.cs">
+      <DependentUpon>ViewsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainFormAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainFormAdmin.Designer.cs">
       <DependentUpon>MainFormAdmin.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainFormUser.cs">
+    <Compile Include="ReportForm2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainFormUser.Designer.cs">
-      <DependentUpon>MainFormUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PeportForm2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PeportForm2.Designer.cs">
-      <DependentUpon>PeportForm2.cs</DependentUpon>
+    <Compile Include="ReportForm2.Designer.cs">
+      <DependentUpon>ReportForm2.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,12 +117,14 @@
     <Compile Include="ReportsMenuForm.Designer.cs">
       <DependentUpon>ReportsMenuForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TableStates.cs" />
     <EmbeddedResource Include="InsertionForm.resx">
       <DependentUpon>InsertionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewsForm.resx">
+      <DependentUpon>ViewsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainFormAdmin.resx">
       <DependentUpon>MainFormAdmin.cs</DependentUpon>
