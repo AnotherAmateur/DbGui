@@ -55,7 +55,7 @@
 			this.tableSelectionMenuStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
 			this.tableSelectionMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.tableSelectionMenuStrip.Name = "tableSelectionMenuStrip";
-			this.tableSelectionMenuStrip.Size = new System.Drawing.Size(162, 24);
+			this.tableSelectionMenuStrip.Size = new System.Drawing.Size(84, 24);
 			this.tableSelectionMenuStrip.TabIndex = 0;
 			this.tableSelectionMenuStrip.Text = "Таблица";
 			// 
@@ -160,7 +160,7 @@
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			this.splitContainer.Size = new System.Drawing.Size(870, 436);
-			this.splitContainer.SplitterDistance = 252;
+			this.splitContainer.SplitterDistance = 195;
 			this.splitContainer.TabIndex = 13;
 			// 
 			// getChildernMenuStrip
@@ -188,6 +188,7 @@
 			// 
 			// openViewsButton
 			// 
+			this.openViewsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.openViewsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.openViewsButton.Location = new System.Drawing.Point(153, 540);
 			this.openViewsButton.Name = "openViewsButton";

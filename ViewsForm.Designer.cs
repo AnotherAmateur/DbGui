@@ -52,7 +52,7 @@
 			this.viewSelectionMenuStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
 			this.viewSelectionMenuStrip.Location = new System.Drawing.Point(0, 0);
 			this.viewSelectionMenuStrip.Name = "viewSelectionMenuStrip";
-			this.viewSelectionMenuStrip.Size = new System.Drawing.Size(162, 24);
+			this.viewSelectionMenuStrip.Size = new System.Drawing.Size(209, 24);
 			this.viewSelectionMenuStrip.TabIndex = 0;
 			this.viewSelectionMenuStrip.Text = "Таблица";
 			// 
@@ -145,7 +145,7 @@
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			this.splitContainer.Size = new System.Drawing.Size(870, 471);
-			this.splitContainer.SplitterDistance = 271;
+			this.splitContainer.SplitterDistance = 300;
 			this.splitContainer.TabIndex = 13;
 			// 
 			// viewHeaderLabel
