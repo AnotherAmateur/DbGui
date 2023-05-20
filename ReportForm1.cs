@@ -67,6 +67,7 @@ namespace DbGui
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message);
+				Close();
 			}
 
 			return data.Split(';').ToList(); ;
@@ -76,7 +77,7 @@ namespace DbGui
 		private void DisplayDebtorsTable(List<string> ticketsList)
 		{
 			string readersTable = "Readers";
-			string sqlQuery = $"SELECT * FROM {readersTable} WHERE TicketNumber IN ({String.Join(" ", ticketsList)})";
+			string sqlQuery = $"SELECT * FROM {readersTable} WHERE TicketNumber IN ({String.Join(", ", ticketsList)})";
 
 			try
 			{
@@ -93,10 +94,10 @@ namespace DbGui
 				db.CloseConnection();
 
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-
-				throw;
+				MessageBox.Show(ex.Message);
+				Close();
 			}
 		}
 	}

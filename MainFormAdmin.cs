@@ -206,7 +206,7 @@ namespace DbGui
 			searchTextBox.Text = "";			
 
 			string queryString =
-				"SELECT TOP 100 * " +
+				"SELECT  * " +
 				$"FROM {currentTableName} ";
 
 			sqlDataAdapterMaster.SelectCommand = new SqlCommand(queryString, db.sqlConnection);
@@ -308,7 +308,7 @@ namespace DbGui
 			string selectedTableName = ((ToolStripItem)sender).Name;
 
 			string queryString =
-				"SELECT TOP 100 * " +
+				"SELECT  * " +
 				$"FROM {selectedTableName}";
 
 			sqlDataAdapterRelated = new SqlDataAdapter();

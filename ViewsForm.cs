@@ -174,7 +174,7 @@ namespace DbGui
 			searchTextBox.Text = "";
 
 			string queryString =
-				"SELECT TOP 100 * " +
+				"SELECT  * " +
 				$"FROM {currentViewName} ";
 
 			sqlDataAdapterMaster.SelectCommand = new SqlCommand(queryString, db.sqlConnection);
