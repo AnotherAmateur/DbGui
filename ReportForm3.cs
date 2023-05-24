@@ -84,6 +84,11 @@ namespace DbGui
 
 			foreach (var item in data.Split(';'))
 			{
+				if (item.Length < 2)
+				{
+					break;
+				}
+
 				string[] tmp = item.Split('/');
 				result.Add(tmp[0], int.Parse(tmp[1]));
 			}
