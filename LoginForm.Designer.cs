@@ -72,7 +72,6 @@
 			this.passwordTextBox.PasswordChar = '*';
 			this.passwordTextBox.Size = new System.Drawing.Size(241, 20);
 			this.passwordTextBox.TabIndex = 3;
-			this.passwordTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.passwordTextBox_KeyDown);
 			// 
 			// loginTextBox
 			// 
@@ -114,6 +113,7 @@
 			this.MinimumSize = new System.Drawing.Size(800, 400);
 			this.Name = "LoginForm";
 			this.Text = "Login Form";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
 			this.AuthGroupBox.ResumeLayout(false);
 			this.AuthGroupBox.PerformLayout();
 			this.ResumeLayout(false);
